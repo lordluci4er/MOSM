@@ -1,4 +1,5 @@
 import * as paymentService from "../services/paymentService.js";
+import { successResponse } from "../middleware/responseHandler.js";
 
 export const makePayment = async (req, res) => {
   try {
@@ -11,9 +12,16 @@ export const makePayment = async (req, res) => {
       type
     );
 
-    res.json(payment);
+    return successResponse(
+      res,
+      payment,
+      "Payment successful"
+    );
 
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    return res.status(400).json({
+      success: false,
+      message: err.message
+    });
   }
 };

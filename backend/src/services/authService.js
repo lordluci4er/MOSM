@@ -1,16 +1,21 @@
 import User from "../models/User.js";
 import Config from "../models/Config.js";
 import Invite from "../models/Invite.js";
+
 import { hashPassword, comparePassword } from "../utils/password.js";
+import { generateRefreshToken } from "../utils/jwt.js";
 
+// 🔐 SIGNUP
 export const signupUser = async ({ email, password, inviteCode }) => {
-
   const config = await Config.findOne({ key: "inviteOnly" });
 
   if (config?.value === true) {
     if (!inviteCode) throw new Error("Invite code required");
 
-    const invite = await Invite.findOne({ code: inviteCode, active: true });
+    const invite = await Invite.findOne({
+      code: inviteCode,
+      active: true
+    });
 
     if (!invite || invite.usedCount >= invite.maxUses) {
       throw new Error("Invalid invite code");
@@ -25,11 +30,15 @@ export const signupUser = async ({ email, password, inviteCode }) => {
 
   const hashed = await hashPassword(password);
 
-  const user = await User.create({ email, password: hashed });
+  const user = await User.create({
+    email,
+    password: hashed
+  });
 
   return user;
 };
 
+// 🔓 LOGIN
 export const loginUser = async ({ email, password }) => {
   const user = await User.findOne({ email });
   if (!user) throw new Error("User not found");
@@ -37,5 +46,15 @@ export const loginUser = async ({ email, password }) => {
   const match = await comparePassword(password, user.password);
   if (!match) throw new Error("Invalid credentials");
 
-  return user;
+  // 🔄 Generate refresh token
+  const refreshToken = generateRefreshToken(user);
+
+  // 🔐 Save refresh token in DB
+  user.refresh_token = refreshToken;
+  await user.save();
+
+  return {
+    user,
+    refreshToken
+  };
 };

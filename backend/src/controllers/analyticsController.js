@@ -1,4 +1,5 @@
 import * as analyticsService from "../services/analyticsService.js";
+import { successResponse } from "../middleware/responseHandler.js";
 
 export const getAnalytics = async (req, res) => {
   try {
@@ -9,9 +10,12 @@ export const getAnalytics = async (req, res) => {
       { startDate, endDate }
     );
 
-    res.json(data);
+    return successResponse(res, data, "Analytics fetched successfully");
 
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    return res.status(400).json({
+      success: false,
+      message: err.message
+    });
   }
 };

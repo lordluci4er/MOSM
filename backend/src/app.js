@@ -16,32 +16,65 @@ import ledgerRoutes from "./routes/ledgerRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
 
+// 🔧 Middleware
+import { errorHandler } from "./middleware/errorMiddleware.js";
+import { rateLimiter } from "./middleware/rateLimiter.js";
+
+// 🔐 Security & Logging
+import cors from "cors";
+import helmet from "helmet";
+import morgan from "morgan";
+
 const app = express();
 
-// 🔧 Global Middleware
+// 🔧 Body Parser
 app.use(express.json());
 
-// 🚀 API Routes
+// ⏱️ Request Timeout (early middleware)
+app.use((req, res, next) => {
+  res.setTimeout(10000, () => {
+    res.status(408).json({
+      success: false,
+      message: "Request timeout"
+    });
+  });
+  next();
+});
+
+// 🔐 Security
+app.use(cors());
+app.use(helmet());
+
+// 📊 Logging
+app.use(morgan("dev"));
+
+// 🔥 Rate Limiter
+app.use(rateLimiter);
+
+// 🚀 API Routes (VERSIONED)
 
 // 🔐 Auth
-app.use("/api/auth", authRoutes);
+app.use("/api/v1/auth", authRoutes);
 
 // 🏢 Core
-app.use("/api/party", partyRoutes);
-app.use("/api/medicine", medicineRoutes);
-app.use("/api/order", orderRoutes);
+app.use("/api/v1/party", partyRoutes);
+app.use("/api/v1/medicine", medicineRoutes);
+app.use("/api/v1/order", orderRoutes);
 
 // 💰 Finance
-app.use("/api/payment", paymentRoutes);
-app.use("/api/ledger", ledgerRoutes);
+app.use("/api/v1/payment", paymentRoutes);
+app.use("/api/v1/ledger", ledgerRoutes);
 
 // 📊 Analytics & Notifications
-app.use("/api/analytics", analyticsRoutes);
-app.use("/api/notifications", notificationRoutes);
+app.use("/api/v1/analytics", analyticsRoutes);
+app.use("/api/v1/notifications", notificationRoutes);
 
 // 🧪 Health Check
 app.get("/", (req, res) => {
   res.send("MediFlow API Running 🚀");
 });
+
+// 🔥 Global Error Handler (ALWAYS LAST)
+app.use(errorHandler);
 
 export default app;

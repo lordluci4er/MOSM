@@ -7,4 +7,7 @@ const orderSchema = new mongoose.Schema({
   status: { type: String, default: "ordered" }
 }, { timestamps: true });
 
+// ⚡ Compound index for fast queries (user + party)
+orderSchema.index({ user_id: 1, party_id: 1 });
+
 export default mongoose.model("Order", orderSchema);

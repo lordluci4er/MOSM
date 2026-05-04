@@ -1,4 +1,5 @@
 import * as ledgerService from "../services/ledgerService.js";
+import { successResponse } from "../middleware/responseHandler.js";
 
 export const getLedger = async (req, res) => {
   try {
@@ -7,9 +8,16 @@ export const getLedger = async (req, res) => {
       req.params.partyId
     );
 
-    res.json(data);
+    return successResponse(
+      res,
+      data,
+      "Ledger fetched successfully"
+    );
 
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    return res.status(400).json({
+      success: false,
+      message: err.message
+    });
   }
 };

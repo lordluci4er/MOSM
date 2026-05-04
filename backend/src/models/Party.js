@@ -8,4 +8,7 @@ const partySchema = new mongoose.Schema({
   total_due: { type: Number, default: 0 }
 }, { timestamps: true });
 
+// ⚡ Index for fast queries (multi-tenant optimization)
+partySchema.index({ user_id: 1 });
+
 export default mongoose.model("Party", partySchema);

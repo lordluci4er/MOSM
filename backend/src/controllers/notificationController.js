@@ -1,10 +1,20 @@
 import * as notificationService from "../services/notificationService.js";
+import { successResponse } from "../middleware/responseHandler.js";
 
 export const getNotifications = async (req, res) => {
   try {
     const data = await notificationService.getNotifications(req.user.id);
-    res.json(data);
+
+    return successResponse(
+      res,
+      data,
+      "Notifications fetched successfully"
+    );
+
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    return res.status(400).json({
+      success: false,
+      message: err.message
+    });
   }
 };
