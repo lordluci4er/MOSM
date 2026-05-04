@@ -1,9 +1,9 @@
 import express from "express";
-import * as ctrl from "../controllers/paymentController.js";
+import * as ctrl from "../controllers/ledgerController.js";
 import { verifyUser } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", verifyUser, ctrl.makePayment);
+router.get("/:partyId", verifyUser, ctrl.getLedger);
 
 export default router;
