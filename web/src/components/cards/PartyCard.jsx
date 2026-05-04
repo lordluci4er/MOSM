@@ -1,0 +1,1 @@
+export default function PartyCard() { return <div>Party Card</div>; }

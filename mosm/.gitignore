@@ -1,0 +1,59 @@
+# ===============================
+# OS & Misc
+# ===============================
+*.log
+*.tmp
+*.swp
+.DS_Store
+
+# ===============================
+# IDE / Editor
+# ===============================
+.idea/
+*.iml
+
+# VS Code (optional ignore)
+.vscode/
+
+# ===============================
+# Flutter / Dart
+# ===============================
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+
+# Flutter plugins
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Generated files
+generated_plugin_registrant.dart
+
+# Coverage
+coverage/
+
+# ===============================
+# Android
+# ===============================
+android/.gradle/
+android/app/build/
+
+# Keystore (VERY IMPORTANT 🔥)
+android/key.properties
+*.jks
+*.keystore
+
+# ===============================
+# iOS
+# ===============================
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+
+# ===============================
+# Env / Secrets (IMPORTANT)
+# ===============================
+.env

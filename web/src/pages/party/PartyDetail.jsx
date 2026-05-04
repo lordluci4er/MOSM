@@ -1,0 +1,1 @@
+export default function PartyDetail() { return <div>Party Detail</div>; }

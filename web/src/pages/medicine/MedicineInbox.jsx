@@ -1,0 +1,1 @@
+export default function MedicineInbox() { return <div>Medicine Inbox</div>; }

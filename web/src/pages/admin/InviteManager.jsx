@@ -1,0 +1,1 @@
+export default function InviteManager() { return <div>Invite Manager</div>; }
