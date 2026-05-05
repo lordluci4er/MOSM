@@ -11,8 +11,6 @@
 # ===============================
 .idea/
 *.iml
-
-# VS Code (optional ignore)
 .vscode/
 
 # ===============================
@@ -24,14 +22,9 @@
 .pub/
 build/
 
-# Flutter plugins
 .flutter-plugins
 .flutter-plugins-dependencies
-
-# Generated files
 generated_plugin_registrant.dart
-
-# Coverage
 coverage/
 
 # ===============================
@@ -40,7 +33,10 @@ coverage/
 android/.gradle/
 android/app/build/
 
-# Keystore (VERY IMPORTANT 🔥)
+# 🔥 Firebase config (SENSITIVE)
+android/app/google-services.json
+
+# 🔥 Keystore (VERY IMPORTANT)
 android/key.properties
 *.jks
 *.keystore
@@ -53,7 +49,11 @@ ios/.symlinks/
 ios/Flutter/Flutter.framework
 ios/Flutter/Flutter.podspec
 
+# 🔥 Firebase iOS config
+ios/Runner/GoogleService-Info.plist
+
 # ===============================
 # Env / Secrets (IMPORTANT)
 # ===============================
 .env
+.env.*
