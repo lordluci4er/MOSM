@@ -1,3 +1,3 @@
 class Env {
-  static const String baseUrl = "http://localhost:5000/api/v1";
+  static const String baseUrl = "https://mosm.onrender.com";
 }
